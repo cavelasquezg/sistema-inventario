@@ -18,3 +18,18 @@ class MaterialResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+# --- NUEVOS ESQUEMAS PARA UBICACIONES ---
+class LocationCreate(BaseModel):
+    name: str
+    type: str
+    description: Optional[str] = None
+
+class LocationResponse(BaseModel):
+    id: int
+    name: str
+    type: str
+    description: Optional[str] = None
+
+    class Config:
+        from_attributes = True

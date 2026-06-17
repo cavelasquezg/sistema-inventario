@@ -1,11 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import materials
-from app.core.database import engine, Base  # <-- NUEVA IMPORTACIÓN
-from app.models import models               # <-- NUEVA IMPORTACIÓN
+from app.routers import materials, locations  # <-- AGREGAMOS LOCATIONS AQUÍ
+from app.core.database import engine, Base
+from app.models import models
 
-# Ordenamos a SQLAlchemy que cree todas las tablas en la base de datos si no existen
-Base.metadata.create_all(bind=engine)       # <-- LÍNEA MÁGICA
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="Sistema de Gestión de Inventario",
@@ -13,7 +12,6 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Configuración de CORS
 origins = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
@@ -28,6 +26,7 @@ app.add_middleware(
 )
 
 app.include_router(materials.router, prefix="/api/v1")
+app.include_router(locations.router, prefix="/api/v1")  # <-- NUEVA LÍNEA
 
 @app.get("/", tags=["General"])
 def read_root():
