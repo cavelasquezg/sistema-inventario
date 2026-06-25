@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import materials, locations  # <-- AGREGAMOS LOCATIONS AQUÍ
+from app.routers import materials, locations, stock
 from app.core.database import engine, Base
 from app.models import models
 
@@ -26,7 +26,8 @@ app.add_middleware(
 )
 
 app.include_router(materials.router, prefix="/api/v1")
-app.include_router(locations.router, prefix="/api/v1")  # <-- NUEVA LÍNEA
+app.include_router(locations.router, prefix="/api/v1")  
+app.include_router(stock.router, prefix="/api/v1")
 
 @app.get("/", tags=["General"])
 def read_root():

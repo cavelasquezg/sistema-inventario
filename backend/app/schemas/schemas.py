@@ -1,5 +1,6 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
+from datetime import datetime
 
 # Lo que el cliente envía cuando quiere CREAR un material
 class MaterialCreate(BaseModel):
@@ -30,6 +31,26 @@ class LocationResponse(BaseModel):
     name: str
     type: str
     description: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
+# --- NUEVOS ESQUEMAS PARA MOVIMIENTOS ---
+class StockMovementCreate(BaseModel):
+    material_id: int
+    location_id: int
+    quantity: int
+    movement_type: str # Debe ser 'INPUT' o 'OUTPUT'
+    description: Optional[str] = None
+
+class StockMovementResponse(BaseModel):
+    id: int
+    material_id: int
+    location_id: int
+    quantity: int
+    movement_type: str
+    description: Optional[str] = None
+    created_at: datetime
 
     class Config:
         from_attributes = True
